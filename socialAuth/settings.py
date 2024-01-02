@@ -1,6 +1,9 @@
 
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -11,7 +14,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 LOGIN_REDIRECT_URL='/'
 
 
-SECRET_KEY = 'django-insecure-pxp7d!s=xef8@i7ktxl#kvcj+c06#6-0=(w3jy96p7jn))8fv#'
+SECRET_KEY =os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -34,6 +37,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.github',
+    'lockdown',
 ]
 
 MIDDLEWARE = [
@@ -45,6 +49,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
      "allauth.account.middleware.AccountMiddleware",
+     'lockdown.middleware.LockdownMiddleware',
 ]
 
 ROOT_URLCONF = 'socialAuth.urls'
@@ -77,8 +82,8 @@ SOCIALACCOUNT_PROVIDERS = {
     'github': {
        
         'APP': {
-            'client_id': '',
-            'secret': '',
+            'client_id': os.environ.get('client_id'),
+            'secret': os.environ.get('secret'),
             'key': ''
         }
     }
@@ -97,7 +102,7 @@ DATABASES = {
 }
 
 
-
+LOCKDOWN_PASSWORDS = ('ronnie')
 
 AUTH_PASSWORD_VALIDATORS = [
     {
